@@ -8,10 +8,11 @@ const proxies = [
 async function scrapePage(url) {
   const proxy = proxies[Math.floor(Math.random() * proxies.length)];
 
-  const browser = await chromium.launch({
-    headless: true,
-    proxy: proxy ? { server: proxy } : undefined
-  });
+const browser = await chromium.launch({
+  headless: true,
+  args: ["--no-sandbox", "--disable-setuid-sandbox"], // 🔥 REQUIRED for Render
+  proxy: proxy ? { server: proxy } : undefined
+});
 
   const context = await browser.newContext({
     userAgent:
